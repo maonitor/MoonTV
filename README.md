@@ -45,10 +45,15 @@
 - [配置说明](#配置说明)
 - [管理员配置](#管理员配置)
 - [AndroidTV 使用](#AndroidTV-使用)
+- [Android 手机 APK](#android-手机-apk)
 - [Roadmap](#roadmap)
 - [安全与隐私提醒](#安全与隐私提醒)
 - [License](#license)
 - [致谢](#致谢)
+
+## Android 手机 APK
+
+本仓库提供独立的 [Android 壳工程](android-app/README.md)，通过原生 WebView 访问 `https://yhroppo.iepose.cn/`，支持 Android 8.0 及以上手机。使用 Android Studio 打开 `android-app/`，或按工程文档构建 APK；无需先构建 Next.js。登录、搜索和播放由现有服务器提供，跨端数据同步及登录有效期由服务器配置决定。
 
 ## 技术栈
 

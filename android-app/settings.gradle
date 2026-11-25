@@ -1,0 +1,26 @@
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            // 直接使用官方 Kotlin 插件模块，减少额外插件标记包的解析。
+            if (requested.id.id == 'org.jetbrains.kotlin.android') {
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
+            }
+        }
+    }
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'MoonTVAndroid'
+include ':app'

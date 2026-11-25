@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+// 壳应用默认访问的服务器；可通过 -PmoonTvServerUrl 配置自有 HTTPS 站点。
+def moonTvServerUrl = providers.gradleProperty('moonTvServerUrl')
+        .getOrElse('https://yhroppo.iepose.cn/')
+// 在生成 BuildConfig 前校验地址，避免打包明文站点或含凭据的 URL。
+def moonTvServerUri
+try {
+    moonTvServerUri = new URI(moonTvServerUrl)
+} catch (URISyntaxException exception) {
+    throw new GradleException('moonTvServerUrl 必须是有效的 HTTPS 地址。', exception)
+}
+if (!'https'.equalsIgnoreCase(moonTvServerUri.scheme) ||
+        !moonTvServerUri.host ||
+        !(moonTvServerUri.port in [-1, 443]) ||
+        moonTvServerUri.rawUserInfo != null ||
+        moonTvServerUri.rawQuery != null ||
+        moonTvServerUri.rawFragment != null) {
+    throw new GradleException('moonTvServerUrl 必须使用 HTTPS 和默认端口或 443，且不得包含凭据、查询参数或片段。')
+}
+
+android {
+    namespace 'cn.iepose.yhroppo.moontv'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'cn.iepose.yhroppo.moontv'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '1.0.0'
+        buildConfigField 'String', 'SERVER_URL', groovy.json.JsonOutput.toJson(moonTvServerUri.toASCIIString())
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}

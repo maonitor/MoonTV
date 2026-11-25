@@ -43,3 +43,14 @@ sitemap-*.xml
 # generated files
 src/lib/runtime.ts
 public/manifest.json
+
+# independent Android shell
+/android-app/.gradle/
+/android-app/.kotlin/
+/android-app/.idea/
+/android-app/local.properties
+/android-app/**/build/
+/android-app/captures/
+/android-app/*.jks
+/android-app/*.keystore
+/android-app/keystore.properties
